@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickRender｜ft.Products</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="#" class="ttl">QuickRender</a>
+        <a href="https://ftprd.github.io" class="header_link_prd">ft.Products</a>
+        <a href="https://x.com/ft_prd" class="header_link_sns">ft.'s Twitter</a>
+    </header>
+
+    <main>
+        <div class="main_urlzone">
+            <p class="ttl">MAKING ZONE</p>
+            <div class="urlzone_inputzone" title="URLを入力">
+                <label for="urlzone_input" class="urlzone_inputzone_lett">https://</label>
+                <input type="url" id="urlzone_input" placeholder="example.com/about">
+            </div>
+            <div class="urlzone_progress">
+                <p class="urlzone_progress_lett">
+                    <span id="urlzone_progress_lett">0</span>
+                    <span id="urlzone_progress_info">最大1,000文字です。</span>
+                </p>
+                <div class="urlzone_progresszone">
+                    <div id="urlzone_progress"></div>
+                    <div class="urlzone_progress_bg"></div>
+                </div>
+            </div>
+
+            <div id="generate_btn"><span>QR<br>生<br>成</span></div>
+        </div>
+        
+        <div class="main_generated">
+            <p class="ttl">GENERATED ZONE</p>
+            <div class="generated_qr">
+                <img src="qr_image.png" id="generated_qr">
+            </div>
+            <div class="generated_settings">
+                <div class="generated_settings_size">
+                    <p class="generated_ttl">画像サイズ：<span id="generated_settings_sizeV">300</span>px</p>
+                    <input type="range" id="generated_settings_size" min="100" max="1000" step="50" value="300">
+                </div>
+                <div class="generated_settings_color">
+                    <div class="generated_settings_color_dot">
+                        <label for="generated_settings_color_dot">ドット：
+                            <span id="generated_settings_color_dot_hex">#000000</span>
+                        </label>
+                        <input type="color" id="generated_settings_color_dot" value="#000000">
+                    </div>
+                    <div class="generated_settings_color_bg">
+                        <label for="generated_settings_color_bg">背景：
+                            <span id="generated_settings_color_bg_hex">#FFFFFF</span>
+                        </label>
+                        <input type="color" id="generated_settings_color_bg" value="#ffffff">
+                    </div>
+                </div>
+                <a href="" id="generated_qrdl" download="QuickRender_qr.png">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+                    <span>Download</span>
+                </a>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <a href="https://ftprd.github.io" class="copyright">&copy; 2024 ftprd</a>
+    </footer>
+
+    <canvas id="qr_canvas"></canvas>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+
+            $('#urlzone_input').on('input', function() {
+                let url_maxLength = 1000;
+                let url_currentLength = $(this).val().length;
+                let url_percentage = (url_currentLength / url_maxLength) * 100;
+                $('#urlzone_progress').css('width', url_percentage + '%');
+                $('#urlzone_progress_lett').text(url_currentLength);
+
+                if (url_currentLength > url_maxLength) {
+                    $('#urlzone_progress').css('background-color', '#f00');
+                    $('#urlzone_progress_lett').css('color', '#f00');
+                } else {
+                    $('#urlzone_progress').css('background-color', '#2a7');
+                    $('#urlzone_progress_lett').css('color', '#000');
+                }
+            });
+
+            $('#generated_settings_size').on('input', function() {
+                let generated_size = $(this).val();
+                $('#generated_settings_sizeV').text(generated_size);
+                generateQR();
+            })
+
+            $('#generated_settings_color_dot, #generated_settings_color_bg').on('input', function() {
+                let dotColor = $('#generated_settings_color_dot').val().substring(1);
+                let bgColor = $('#generated_settings_color_bg').val().substring(1);
+                generateQR();
+                $('#generated_settings_color_dot_hex').text('#' + dotColor.toUpperCase());
+                $('#generated_settings_color_bg_hex').text('#' + bgColor.toUpperCase());
+            })
+
+            $('#generate_btn').on('click', function() {
+                let url_maxLength = 1000;
+                let url_currentLength = $('#urlzone_input').val().length;
+
+                if (url_currentLength > url_maxLength) {
+                    $('#urlzone_progress_info').text('文字数が1,000を超えています。');
+                    $('#urlzone_progress_info').css('color', '#f00');
+
+                    setTimeout(() => {
+                        $('#urlzone_progress_info').text('最大1,000文字です。');
+                        $('#urlzone_progress_info').css('color', '#000');
+                    }, 2000);
+                } else if (url_currentLength > 0) {
+                    generateQR();
+                    $('.generated_settings').addClass('active');
+
+                    $('html, body').animate({
+                        scrollTop : $('.main_generated').offset().top
+                    }, {
+                        queue : false
+                    });
+                } else {
+                    $('#urlzone_progress_info').text('有効なURLを入力してください。');
+                    $('#urlzone_progress_info').css('color', '#f00');
+
+                    setTimeout(() => {
+                        $('#urlzone_progress_info').text('最大1,000文字です。');
+                        $('#urlzone_progress_info').css('color', '#000');
+                    }, 2000);
+                }
+            });
+
+            function generateQR() {
+                let generated_size = $('#generated_settings_size').val();
+
+                let url = $('#urlzone_input').val().trim();
+                let dotColor = $('#generated_settings_color_dot').val().substring(1);
+                let bgColor = $('#generated_settings_color_bg').val().substring(1);
+
+                if (url) {
+                    url = url.replace(/^https?:\/\//, '');
+                    var fullUrl = 'https://' + url;
+                    var qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${generated_size}x${generated_size}&data=${encodeURIComponent(fullUrl)}&color=${dotColor}&bgcolor=${bgColor}`;
+
+
+                    
+                    var img = new Image();
+                    img.crossOrigin = 'Anonymous';
+                    img.onload = function() {
+                        var canvas = document.getElementById('qr_canvas');
+                        var ctx = canvas.getContext('2d');
+                        var padding = generated_size / 10;
+                        var iconSize = 30;
+                        canvas.width = img.width + padding * 2;
+                        canvas.height = img.height + padding * 2;
+                        ctx.fillStyle = '#' + bgColor;
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, padding, padding);
+                        
+                        var qrImageUrl = canvas.toDataURL('image/png');
+                        $('#generated_qr').attr('src', qrImageUrl);
+                        $('#generated_qrdl').attr('href', qrImageUrl);
+                    };
+                    img.src = qrUrl;
+                } else {
+                    $('#generated_qr').attr('src', '');
+                }
+            }
+
+        });
+    </script>
+</body>
+</html>

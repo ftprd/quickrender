@@ -1,0 +1,476 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Roboto+Mono:wght@100..900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: #000;
+  overflow: hidden;
+}
+
+html {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100vw;
+  background-color: #fff;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+
+header {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+}
+header a.ttl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  font-size: 1.8rem;
+  font-family: serif;
+  font-weight: 700;
+  color: #fff;
+}
+header a[class*=header_link_] {
+  position: absolute;
+  display: block;
+  padding-inline: 1.25em;
+  font-size: 1rem;
+  font-family: serif;
+  font-weight: 700;
+  color: #fff;
+  transition: all 0.2s ease-out;
+}
+header a[class*=header_link_].header_link_prd {
+  right: 20px;
+}
+header a[class*=header_link_].header_link_sns {
+  left: 20px;
+}
+header a[class*=header_link_]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  bottom: 3px;
+  width: 0;
+  height: 1px;
+  background-color: #fff;
+  transition: all 0.2s ease-out;
+}
+header a[class*=header_link_]:hover::after {
+  width: 100%;
+}
+
+main {
+  margin-top: 100px;
+  width: min(100% - 2rem, 640px);
+  margin-inline: auto;
+  margin-bottom: 50px;
+}
+main .main_urlzone {
+  width: 100%;
+  background-color: #efe;
+  padding-block: 30px 50px;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+main .main_urlzone p.ttl {
+  display: block;
+  text-align: center;
+  font-size: 1.6rem;
+  font-family: "Montserrat", serif;
+  font-weight: 800;
+}
+main .main_urlzone .urlzone_inputzone {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-inline: auto;
+  transition: all 0.2s ease-out;
+}
+main .main_urlzone .urlzone_inputzone label.urlzone_inputzone_lett {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 20%;
+  height: 30px;
+  border-bottom: 1px solid #aaa;
+  font-size: 1rem;
+  font-family: sans-serif;
+  color: #757575;
+  cursor: text;
+}
+main .main_urlzone .urlzone_inputzone input#urlzone_input {
+  display: block;
+  width: 80%;
+  height: 30px;
+  margin-inline: auto;
+  border: none;
+  border-bottom: 1px solid #aaa;
+  outline: none;
+  padding-inline: 1em;
+  background-color: transparent;
+  transition: all 0.2s ease-out;
+  font-size: 1rem;
+  font-family: sans-serif;
+  color: #000;
+}
+main .main_urlzone .urlzone_progress {
+  width: 70%;
+  margin-inline: auto;
+}
+main .main_urlzone .urlzone_progress p.urlzone_progress_lett {
+  margin-top: 10px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.3rem;
+  font-family: "zen kaku gothic new", sans-serif;
+  font-weight: 500;
+}
+main .main_urlzone .urlzone_progress p.urlzone_progress_lett::before {
+  content: "文字数：";
+}
+main .main_urlzone .urlzone_progress p.urlzone_progress_lett span#urlzone_progress_lett {
+  display: block;
+  width: 40px;
+  font-size: 1.3rem;
+  text-align: right;
+  font-family: "roboto mono", sans-serif;
+  font-weight: 500;
+}
+main .main_urlzone .urlzone_progress p.urlzone_progress_lett span#urlzone_progress_info {
+  display: block;
+  margin-left: 20px;
+  font-size: 0.8rem;
+  font-family: "zen kaku gothic new", sans-serif;
+  font-weight: 500;
+}
+main .main_urlzone .urlzone_progress .urlzone_progresszone {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  margin-top: 5px;
+  border-radius: 100px;
+  z-index: 1;
+}
+main .main_urlzone .urlzone_progress .urlzone_progresszone #urlzone_progress {
+  width: 0;
+  height: 100%;
+  background-color: #2a7;
+}
+main .main_urlzone .urlzone_progress .urlzone_progresszone .urlzone_progress_bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background-color: #ddd;
+}
+main .main_urlzone #generate_btn {
+  display: grid;
+  place-items: center;
+  margin-inline: auto;
+  width: 75px;
+  height: 150px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  translate: 0 25px;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+main .main_urlzone #generate_btn:hover::before, main .main_urlzone #generate_btn:hover::after {
+  background-color: #058;
+}
+main .main_urlzone #generate_btn:active {
+  translate: 0 50px;
+}
+main .main_urlzone #generate_btn span {
+  position: absolute;
+  z-index: 1;
+  translate: 0 -12.5px;
+  font-size: 1.1rem;
+  font-family: "zen kaku gothic new", serif;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+  line-height: 1.1em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+main .main_urlzone #generate_btn:before {
+  content: "";
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 70%;
+  height: 100px;
+  margin-inline: auto;
+  -webkit-clip-path: polygon(0 0, 100% 0, 75% 100%, 25% 100%);
+          clip-path: polygon(0 0, 100% 0, 75% 100%, 25% 100%);
+  background-color: #27a;
+  transition: all 0.2s ease-out;
+}
+main .main_urlzone #generate_btn::after {
+  content: "";
+  position: absolute;
+  display: block;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  -webkit-clip-path: polygon(50% 100%, 0 0, 100% 0);
+          clip-path: polygon(50% 100%, 0 0, 100% 0);
+  background-color: #27a;
+  transition: all 0.2s ease-out;
+}
+main .main_generated {
+  width: 100%;
+  background-color: #eef;
+  padding-block: 50px;
+  box-sizing: border-box;
+  border-radius: 15px;
+  margin-top: 100px;
+}
+main .main_generated p.ttl {
+  display: block;
+  text-align: center;
+  font-size: 1.6rem;
+  font-family: "Montserrat", serif;
+  font-weight: 800;
+}
+main .main_generated .generated_qr {
+  margin-top: 20px;
+  width: 300px;
+  aspect-ratio: 1;
+  margin-inline: auto;
+  transition: all 0.2s ease-out;
+}
+main .main_generated .generated_qr img#generated_qr {
+  display: block;
+  width: 100%;
+}
+main .main_generated .generated_settings {
+  display: block;
+  margin-top: 20px;
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease-out;
+}
+main .main_generated .generated_settings.active {
+  opacity: 1;
+  pointer-events: all;
+}
+main .main_generated .generated_settings .generated_settings_size {
+  display: block;
+  width: 70%;
+  margin-inline: auto;
+}
+main .main_generated .generated_settings .generated_settings_size p.generated_ttl {
+  display: block;
+  font-size: 1.2rem;
+  font-family: "zen kaku gothic new", serif;
+  font-weight: 500;
+  text-align: center;
+}
+main .main_generated .generated_settings .generated_settings_size p.generated_ttl span {
+  font-family: "roboto mono";
+}
+main .main_generated .generated_settings .generated_settings_size #generated_settings_size {
+  display: block;
+  width: 100%;
+  height: 10px;
+}
+main .main_generated .generated_settings .generated_settings_color {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  width: 100%;
+  margin-inline: auto;
+  margin-top: 20px;
+}
+main .main_generated .generated_settings .generated_settings_color div[class*=generated_settings_color_] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+}
+main .main_generated .generated_settings .generated_settings_color div[class*=generated_settings_color_] label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  cursor: pointer;
+  font-family: "zen kaku gothic new", serif;
+  font-weight: 500;
+  color: #000;
+}
+main .main_generated .generated_settings .generated_settings_color div[class*=generated_settings_color_] label span {
+  display: block;
+  font-family: "roboto mono", serif;
+  font-weight: 500;
+  color: #000;
+}
+main .main_generated .generated_settings .generated_settings_color div[class*=generated_settings_color_] input {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 30px;
+  padding-inline: 2px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+main .main_generated .generated_settings a#generated_qrdl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 50%;
+  height: 40px;
+  background-color: #27a;
+  margin-inline: auto;
+  margin-top: 30px;
+  border-radius: 10px;
+  transition: all 0.2s ease-out;
+}
+main .main_generated .generated_settings a#generated_qrdl svg {
+  display: block;
+  width: 24px;
+  fill: #fff;
+  transition: all 0.2s ease-out;
+}
+main .main_generated .generated_settings a#generated_qrdl span {
+  display: block;
+  font-size: 1.2rem;
+  font-family: "Montserrat", serif;
+  font-weight: 500;
+  color: #fff;
+  transition: all 0.2s ease-out;
+}
+main .main_generated .generated_settings a#generated_qrdl:hover * {
+  translate: 0 -5px;
+}
+
+footer {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 75px;
+  background-color: #444;
+}
+footer a.copyright {
+  position: relative;
+  display: block;
+  padding-inline: 1em;
+  color: #fff;
+  font-family: "zen kaku gothic new", serif;
+  font-weight: 400;
+}
+footer a.copyright::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background-color: #fff;
+  transition: all 0.2s ease-out;
+}
+footer a.copyright:hover::after {
+  width: 100%;
+}
+
+canvas {
+  display: none;
+}
+
+@media (max-width: 512px) {
+  header a[class*=header_link_] {
+    opacity: 0;
+    pointer-events: none;
+  }
+  main .main_urlzone .urlzone_inputzone {
+    width: 80%;
+  }
+  main .main_urlzone .urlzone_inputzone label.urlzone_inputzone_lett {
+    display: none;
+  }
+  main .main_urlzone .urlzone_inputzone input#urlzone_input {
+    width: 100%;
+  }
+  main .main_urlzone .urlzone_progress {
+    width: 80%;
+  }
+  main .main_urlzone .urlzone_progress p.urlzone_progress_lett {
+    font-size: 1.1rem;
+  }
+  main .main_urlzone .urlzone_progress p.urlzone_progress_lett span#urlzone_progress_info {
+    display: none;
+  }
+  main .main_generated .generated_qr {
+    width: 75%;
+  }
+  main .main_generated .generated_settings .generated_settings_size {
+    width: 80%;
+  }
+  main .main_generated .generated_settings .generated_settings_size p.generated_ttl {
+    display: block;
+    font-size: 1.2rem;
+    font-family: "zen kaku gothic new", serif;
+    font-weight: 500;
+    text-align: center;
+  }
+  main .main_generated .generated_settings .generated_settings_size p.generated_ttl span {
+    font-family: "roboto mono";
+  }
+  main .main_generated .generated_settings .generated_settings_size #generated_settings_size {
+    display: block;
+    width: 100%;
+    height: 10px;
+  }
+  main .main_generated .generated_settings .generated_settings_color {
+    gap: 20px;
+  }
+  main .main_generated .generated_settings .generated_settings_color div[class*=generated_settings_color_] label span {
+    display: none;
+  }
+  main .main_generated .generated_settings .generated_settings_color div[class*=generated_settings_color_] input {
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 30px;
+    padding-inline: 2px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  main .main_generated .generated_settings a#generated_qrdl {
+    width: 80%;
+  }
+}/*# sourceMappingURL=style.css.map */
